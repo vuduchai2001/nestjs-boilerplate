@@ -1,0 +1,35 @@
+# Docker Compose Configuration
+# visit https://docs.docker.com/compose/
+
+version: '3.8'
+services:
+  # start the mongodb service as container
+  database:
+    image: mongo:6.0
+    container_name: mongodb
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: tt_admin
+      MONGO_INITDB_ROOT_PASSWORD: tt_admin
+
+  mailpit:
+    image: 'axllent/mailpit:v1.15'
+    container_name: mailpit
+    restart: unless-stopped
+    ports:
+      - '${FORWARD_MAILPIT_PORT:-1025}:1025'
+      - '${FORWARD_MAILPIT_UI_PORT:-8025}:8025'
+
+  redis:
+    image: redis:7.2.4-bookworm
+    platform: linux/x86_64
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
