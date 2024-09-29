@@ -18,7 +18,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
+      - name: Setup yarn
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
       - name: Install node-modules
         run: yarn install
       - name: Build app
-        run: yarn buld
+        run: yarn build
